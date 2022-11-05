@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GoodsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StaticCode" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TelephoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PriceListId" Type="Int32" Nullable="false" />
+    <Property Name="MarketingDepartmentId" Type="Int32" Nullable="false" />
+    <Property Name="SupervisorId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MarketingDepartment" Relationship="Self.FK_Company_MarketingDepartment" FromRole="Company" ToRole="MarketingDepartment" />
+    <NavigationProperty Name="PriceList" Relationship="Self.FK_Company_PriceList" FromRole="Company" ToRole="PriceList" />
+    <NavigationProperty Name="Supervisor" Relationship="Self.FK_Company_Supervisor" FromRole="Company" ToRole="Supervisor" />
+  </EntityType>
+  <EntityType Name="Good">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameGood" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NumberGood" Type="Int32" Nullable="false" />
+    <Property Name="GoodsGroupId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="GoodsGroup" Relationship="Self.FK_Good_GoodsGroup" FromRole="Good" ToRole="GoodsGroup" />
+    <NavigationProperty Name="PriceList" Relationship="Self.FK_PriceList_Good" FromRole="Good" ToRole="PriceList" />
+  </EntityType>
+  <EntityType Name="GoodsGroup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameGroup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Good" Relationship="Self.FK_Good_GoodsGroup" FromRole="GoodsGroup" ToRole="Good" />
+  </EntityType>
+  <EntityType Name="MarketingDepartment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TelephoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContactPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SupervisorId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Company_MarketingDepartment" FromRole="MarketingDepartment" ToRole="Company" />
+    <NavigationProperty Name="Supervisor" Relationship="Self.FK_MarketingDepartment_Supervisor" FromRole="MarketingDepartment" ToRole="Supervisor" />
+  </EntityType>
+  <EntityType Name="PriceList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GoodsId" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Company_PriceList" FromRole="PriceList" ToRole="Company" />
+    <NavigationProperty Name="Good" Relationship="Self.FK_PriceList_Good" FromRole="PriceList" ToRole="Good" />
+  </EntityType>
+  <EntityType Name="Supervisor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Company" Relationship="Self.FK_Company_Supervisor" FromRole="Supervisor" ToRole="Company" />
+    <NavigationProperty Name="MarketingDepartment" Relationship="Self.FK_MarketingDepartment_Supervisor" FromRole="Supervisor" ToRole="MarketingDepartment" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Company_MarketingDepartment">
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Company" Type="Self.Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarketingDepartment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="MarketingDepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Company_PriceList">
+    <End Role="PriceList" Type="Self.PriceList" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Company" Type="Self.Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PriceList">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="PriceListId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Company_Supervisor">
+    <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Company" Type="Self.Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supervisor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Company">
+        <PropertyRef Name="SupervisorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Good_GoodsGroup">
+    <End Role="GoodsGroup" Type="Self.GoodsGroup" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Good" Type="Self.Good" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoodsGroup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Good">
+        <PropertyRef Name="GoodsGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceList_Good">
+    <End Role="Good" Type="Self.Good" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PriceList" Type="Self.PriceList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Good">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PriceList">
+        <PropertyRef Name="GoodsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MarketingDepartment_Supervisor">
+    <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="1" />
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supervisor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MarketingDepartment">
+        <PropertyRef Name="SupervisorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GoodsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Company" EntityType="Self.Company" />
+    <EntitySet Name="Good" EntityType="Self.Good" />
+    <EntitySet Name="GoodsGroup" EntityType="Self.GoodsGroup" />
+    <EntitySet Name="MarketingDepartment" EntityType="Self.MarketingDepartment" />
+    <EntitySet Name="PriceList" EntityType="Self.PriceList" />
+    <EntitySet Name="Supervisor" EntityType="Self.Supervisor" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Company_MarketingDepartment" Association="Self.FK_Company_MarketingDepartment">
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartment" />
+      <End Role="Company" EntitySet="Company" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Company_PriceList" Association="Self.FK_Company_PriceList">
+      <End Role="PriceList" EntitySet="PriceList" />
+      <End Role="Company" EntitySet="Company" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Company_Supervisor" Association="Self.FK_Company_Supervisor">
+      <End Role="Supervisor" EntitySet="Supervisor" />
+      <End Role="Company" EntitySet="Company" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Good_GoodsGroup" Association="Self.FK_Good_GoodsGroup">
+      <End Role="GoodsGroup" EntitySet="GoodsGroup" />
+      <End Role="Good" EntitySet="Good" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceList_Good" Association="Self.FK_PriceList_Good">
+      <End Role="Good" EntitySet="Good" />
+      <End Role="PriceList" EntitySet="PriceList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MarketingDepartment_Supervisor" Association="Self.FK_MarketingDepartment_Supervisor">
+      <End Role="Supervisor" EntitySet="Supervisor" />
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartment" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

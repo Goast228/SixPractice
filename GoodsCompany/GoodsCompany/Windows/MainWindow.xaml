@@ -1,0 +1,42 @@
+﻿<Window x:Class="GoodsCompany.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoodsCompany"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#FF9192FF" />
+            <Button x:Name="BtnBack" Grid.Row="0" Content="Назад" HorizontalAlignment="Right" Click="BtnBack_Click" Background="#FF00B300" />
+            <TextBlock x:Name="NameProject" Grid.Row="0" Text="Компания товаров" HorizontalAlignment="Center" />
+
+            <Grid Grid.Row="1" Background="#FFC4EBFF" />
+            <Menu x:Name="ProjectMenu" Grid.Row="1" Background="#FFC4EBFF" HorizontalAlignment="Left" BorderBrush="#000" BorderThickness="1">
+                <MenuItem Header="Операции с проектом" Width="400">
+                    <Button x:Name="SeeGoodsBtn" Content="Просмотреть товары" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="SeeGoodsBtn_Click" />
+                    <Button x:Name="SeeSupervisorBtn" Content="Просмотреть руководителей" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="SeeSupervisorBtn_Click" />
+                    <Button x:Name="SeeCompanyBtn" Content="Просмотреть компании" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="SeeCompanyBtn_Click" />
+                    <Separator />
+                    <Button x:Name="WordGoodBtn" Content="Сгенерировать документ по товарам" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="WordGoodBtn_Click" />
+                    <Button x:Name="WordSupervisorBtn" Content="Сгенерировать документ по руководителям" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="WordSupervisorBtn_Click" />
+                    <Button x:Name="WordCompanyBtn" Content="Сгенерировать документ по компаниям" Width="350" HorizontalContentAlignment="Left" Background="Transparent" BorderThickness="0" Click="WordCompanyBtn_Click" />
+                </MenuItem>
+            </Menu>
+
+            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" ContentRendered="MainFrame_ContentRendered"/>
+
+            <Grid Grid.Row="3" Background="#FFC4EBFF" />
+
+        </Grid>          
+    </Grid>
+</Window>
